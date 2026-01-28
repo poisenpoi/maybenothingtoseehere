@@ -30,21 +30,15 @@ export default function JobCard({
   job: JobUI;
   isAuthenticated: boolean;
 }) {
-  const formatSalary = (min: number | null, max: number | null) => {
-    if (!min && !max) return "Undisclosed";
+  const formatSalary = (amount: number | null) => {
+    if (!amount) return "Undisclosed";
 
-    const format = (num: number) =>
-      new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        maximumFractionDigits: 0,
-        notation: "compact",
-      }).format(num);
-
-    if (min && max) return `${format(min)} - ${format(max)}`;
-    if (min) return `From ${format(min)}`;
-    if (max) return `Up to ${format(max)}`;
-    return "";
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0,
+      notation: "compact",
+    }).format(amount);
   };
 
   return (
@@ -82,11 +76,11 @@ export default function JobCard({
         </p>
 
         <div className="flex flex-nowrap items-center gap-2 mt-auto pt-4 border-t border-slate-100 overflow-hidden">
-          {(job.salaryMin || job.salaryMax) && (
+          {job.paycheck && (
             <div className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-100/50">
               <Banknote className="w-3.5 h-3.5" />
               <span className="text-xs font-semibold whitespace-nowrap">
-                {formatSalary(job.salaryMin, job.salaryMax)}
+                {formatSalary(job.paycheck)}
               </span>
             </div>
           )}
