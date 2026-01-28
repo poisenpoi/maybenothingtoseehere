@@ -115,7 +115,7 @@ export default function ProfileView({
                   <button
                     type="submit"
                     disabled={!isProfileComplete || isPending}
-                    className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold shadow-md hover:shadow-2xl transition-all duration-200 ${
+                    className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold shadow-md ${
                       isProfileComplete && !isPending
                         ? "bg-white text-eduBlue"
                         : "bg-gray-300 text-gray-500 cursor-not-allowed"
@@ -179,7 +179,7 @@ export default function ProfileView({
               switch (user.role) {
                 case "COMPANY":
                   return (
-                    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                       <div className="px-6 py-4 bg-linear-to-r from-slate-50 to-white border-b border-slate-100">
                         <div className="flex items-center gap-3">
                           <div className="p-2 bg-indigo-50 rounded-xl">
@@ -222,7 +222,7 @@ export default function ProfileView({
                                   href={websiteUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1.5 text-eduBlue hover:text-blue-700 transition-colors"
+                                  className="inline-flex items-center gap-1.5 text-eduBlue"
                                 >
                                   {profile.companyWebsite}
                                   <svg
@@ -258,7 +258,7 @@ export default function ProfileView({
 
                 default:
                   return (
-                    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                       <div className="px-6 py-4 bg-linear-to-r from-slate-50 to-white border-b border-slate-100">
                         <div className="flex items-center gap-3">
                           <div className="p-2 bg-indigo-50 rounded-xl">
@@ -306,7 +306,7 @@ export default function ProfileView({
               }
             })()}
 
-            <div className="flex flex-col flex-1 bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <div className="flex flex-col flex-1 bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
               <div className="px-6 py-4 bg-linear-to-r from-slate-50 to-white border-b border-slate-100 shrink-0">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-amber-50 rounded-xl">
@@ -427,7 +427,7 @@ function StatCard({
   iconColor: string;
 }) {
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 flex flex-col justify-center items-center text-center gap-3 hover:shadow-lg transition-shadow duration-300 w-full h-full max-h-[160px]">
+    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 flex flex-col justify-center items-center text-center gap-3">
       <div className={`p-3 rounded-xl ${iconBg} ${iconColor}`}>
         {icon}
       </div>
