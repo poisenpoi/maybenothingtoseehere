@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import BackButton from "@/components/BackButton";
-import Certificate from "@/components/certificate/Certificate";
+import Certificate from "@/components/Certificate";
 
 
 interface PageProps {
