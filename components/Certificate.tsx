@@ -78,16 +78,13 @@ export default function Certificate({
             )}
 
             <div className="text-center">
-              <div className="px-8 py-2 border-t border-slate-400">
-                <div className="h-7 flex items-end justify-center">
-                  <span className="font-serif italic text-xl text-eduBlue">
-                    LearningPlatform
-                  </span>
-                </div>
+              <div className="px-8 py-2 flex items-center justify-center">
+                <img 
+                  src="/logo/blue.svg" 
+                  alt="Organization Logo" 
+                  className="h-12 w-auto object-contain"
+                />
               </div>
-              <p className="text-xs uppercase tracking-wider text-slate-400">
-                Verified Signature
-              </p>
             </div>
           </div>
         </div>
