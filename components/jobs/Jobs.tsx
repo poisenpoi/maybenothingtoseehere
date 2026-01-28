@@ -16,6 +16,7 @@ type CoursesProps = {
 };
 
 const PAYCHECK_OPTIONS = [
+  { label: "Any", value: "" },
   { label: "5 jt", value: "5000000" },
   { label: "10 jt", value: "10000000" },
   { label: "15 jt", value: "15000000" },
@@ -37,9 +38,8 @@ export default function Jobs({
     [searchParams],
   );
 
-  const [paycheckMin, setPaycheckMin] = useState(params.get("min") || "");
-  const [paycheckMax, setPaycheckMax] = useState(params.get("max") || "");
-  const [isManualSalary, setIsManualSalary] = useState(false);
+  const [paycheckMin, setPaycheckMin] = useState("");
+  const [paycheckMax, setPaycheckMax] = useState("");
 
   function updateParams(mutator: (params: URLSearchParams) => void) {
     const next = new URLSearchParams(params);
@@ -334,72 +334,38 @@ export default function Jobs({
               </div>
 
               <div className="mb-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
-                    Paycheck
-                  </h3>
-                  <button
-                    onClick={() => {
-                      setIsManualSalary(!isManualSalary);
-                      setPaycheckMin("");
-                      setPaycheckMax("");
-                    }}
-                    className="text-xs font-semibold text-eduBlue hover:text-eduBlue/80 hover:underline transition-colors"
-                  >
-                    {isManualSalary ? "Use Presets" : "Manual Input"}
-                  </button>
-                </div>
+                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">
+                  Paycheck
+                </h3>
 
                 <div className="flex items-center gap-2">
-                  {isManualSalary ? (
-                    <>
-                      <input
-                        type="number"
-                        value={paycheckMin}
-                        placeholder="Min"
-                        onChange={(e) => setPaycheckMin(e.target.value)}
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-eduBlue/20 focus:border-eduBlue"
-                      />
-                      <span className="text-slate-400">—</span>
-                      <input
-                        type="number"
-                        value={paycheckMax}
-                        placeholder="Max"
-                        onChange={(e) => setPaycheckMax(e.target.value)}
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-eduBlue/20 focus:border-eduBlue"
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <select
-                        value={paycheckMin}
-                        onChange={(e) => setPaycheckMin(e.target.value)}
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-eduBlue/20 focus:border-eduBlue"
-                      >
-                        <option value="">Min</option>
-                        {PAYCHECK_OPTIONS.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
+                  <select
+                    value={paycheckMin}
+                    onChange={(e) => setPaycheckMin(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-eduBlue/20"
+                  >
+                    <option value="">Min</option>
+                    {PAYCHECK_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
 
-                      <span className="text-slate-400">—</span>
+                  <span className="text-slate-400">—</span>
 
-                      <select
-                        value={paycheckMax}
-                        onChange={(e) => setPaycheckMax(e.target.value)}
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-eduBlue/20 focus:border-eduBlue"
-                      >
-                        <option value="">Max</option>
-                        {PAYCHECK_OPTIONS.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
-                    </>
-                  )}
+                  <select
+                    value={paycheckMax}
+                    onChange={(e) => setPaycheckMax(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-eduBlue/20"
+                  >
+                    <option value="">Max</option>
+                    {PAYCHECK_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <button
@@ -412,13 +378,14 @@ export default function Jobs({
 
               <Link
                 href="/jobs"
-                className="mt-3 block w-full text-center py-2 text-sm font-bold text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-100 hover:text-slate-900 transition-colors"
+                className="mt-6 block w-full text-center py-3 text-sm font-bold text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-100 hover:text-slate-900 transition-colors"
               >
                 Clear Filters
               </Link>
             </div>
           </aside>
 
+          {/* main contents */}
           <main className="flex-1">
             <div className="flex items-center justify-between mb-6">
               <p className="text-slate-500 font-medium">
@@ -426,24 +393,6 @@ export default function Jobs({
                 <span className="text-slate-900 font-bold">{jobs.length}</span>{" "}
                 jobs
               </p>
-
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-slate-500 hidden sm:inline">
-                  Sort by:
-                </span>
-                <div className="relative group">
-                  <select
-                    value={params.get("sort") ?? "default"}
-                    onChange={(e) => handleSort(e.target.value)}
-                    className="appearance-none bg-white border border-slate-200 pl-4 pr-10 py-2 rounded-lg text-sm font-bold text-slate-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-eduBlue/20 focus:border-eduBlue"
-                  >
-                    <option value="default">Default</option>
-                    <option value="salary_high">Highest Salary</option>
-                    <option value="salary_low">Lowest Salary</option>
-                  </select>
-                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                </div>
-              </div>
             </div>
 
             {jobs.length > 0 ? (
@@ -462,7 +411,7 @@ export default function Jobs({
                   <Search className="w-8 h-8 text-slate-300" />
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 mb-2">
-                  No jobs found
+                  No courses found
                 </h3>
                 <p className="text-slate-500">
                   Try adjusting your search or filters to find what you're
