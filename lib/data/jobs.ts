@@ -14,7 +14,15 @@ export async function getJobs(
   const max = params.get("max") ? Number(params.get("max")) : undefined;
   const sort = params.get("sort");
 
-  // let orderBy
+  let orderBy: Prisma.JobPostingOrderByWithRelationInput = {
+    createdAt: "desc",
+  };
+
+  if (sort === "salary_high") {
+    orderBy = { paycheck: "desc" };
+  } else if (sort === "salary_low") {
+    orderBy = { paycheck: "asc" };
+  }
 
   const and: Prisma.JobPostingWhereInput[] = [];
 
@@ -75,5 +83,6 @@ export async function getJobs(
         include: { profile: true },
       },
     },
+    orderBy,
   });
 }
