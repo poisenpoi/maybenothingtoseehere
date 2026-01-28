@@ -74,7 +74,7 @@ export default async function CertificatePage({ params }: PageProps) {
         <Certificate
           userName={user.profile?.name || user.email.split("@")[0]}
           courseTitle={course.title}
-          completionDate={enrollment.certificate?.issuedAt || enrollment.updatedAt || new Date()}
+          completionDate={(enrollment.certificate?.issuedAt || enrollment.updatedAt || new Date()).toISOString()}
           certificateId={enrollment.certificate?.certificateCode}
         />
       )}

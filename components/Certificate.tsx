@@ -1,9 +1,12 @@
-import React from "react";
+"use client";
+
+import React, { useRef } from "react";
+import html2canvas from "html2canvas";
 
 interface CertificateProps {
   userName: string;
   courseTitle: string;
-  completionDate: Date;
+  completionDate: string;
   certificateId?: string;
 }
 
@@ -13,9 +16,29 @@ export default function Certificate({
   completionDate,
   certificateId,
 }: CertificateProps) {
+  const certificateRef = useRef<HTMLDivElement>(null);
+
+  const handleSaveAsPng = async () => {
+    if (!certificateRef.current) return;
+
+    const canvas = await html2canvas(certificateRef.current, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+    });
+
+    const link = document.createElement("a");
+    link.download = `certificate-${courseTitle.replace(/\s+/g, "-").toLowerCase()}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  };
+
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="bg-white p-2 rounded-xl shadow-lg print:shadow-none print:w-full">
+      <div
+        ref={certificateRef}
+        className="bg-white p-2 rounded-xl shadow-lg print:shadow-none print:w-full"
+      >
         <div className="border-[12px] border-double border-eduBlue/20 p-8 md:p-16 text-center relative overflow-hidden bg-[#fafafa]">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-eduBlue/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -52,7 +75,7 @@ export default function Certificate({
             <div className="text-center">
               <div className="px-8 py-2">
                 <p className="text-2xl font-serif font-bold text-slate-800">
-                  {completionDate.toLocaleDateString("en-US", {
+                  {new Date(completionDate).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
@@ -91,6 +114,30 @@ export default function Certificate({
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-6 text-center print:hidden">
+        <button
+          onClick={handleSaveAsPng}
+          className="inline-flex items-center gap-2 px-6 py-3 bg-eduBlue text-white font-medium rounded-lg hover:bg-eduBlue/90 transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Save as PNG
+        </button>
       </div>
     </div>
   );
